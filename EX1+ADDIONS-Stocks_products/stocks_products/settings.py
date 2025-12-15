@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nw^y+m^wmxza1asgk+)!ua2qx9)g+#v=6%76-9i8i(6eqiw94j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
+# DEBUG = True
+# ALLOWED_HOSTS = []
+DEBUG = os.getenv("DJANGO_DEBUG", "1") == "1"
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost 127.0.0.1").split()
 
 # Application definition
 
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'django_filters',
     'rest_framework',
 
     'logistic',
@@ -77,17 +78,23 @@ WSGI_APPLICATION = 'stocks_products.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'netology_stocks_products',
+#         'USER': 'netology_stocks',
+#         'PASSWORD': 'netology_stocks',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'netology_stocks_products',
-        'USER': 'netology_stocks',
-        'PASSWORD': 'netology_stocks',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.getenv("DJANGO_DB_NAME", BASE_DIR / "db.sqlite3"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
