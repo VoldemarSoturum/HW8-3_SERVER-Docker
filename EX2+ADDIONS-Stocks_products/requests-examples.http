@@ -1,0 +1,146 @@
+# примеры API-запросов
+
+@baseUrl = http://localhost:8000/api/v1
+
+# создание продукта
+POST {{baseUrl}}/products/
+Content-Type: application/json
+
+{
+  "title": "Помидор",
+  "description": "Лучшие помидоры на рынке"
+}
+
+###
+
+# получение продуктов
+GET {{baseUrl}}/products/
+Content-Type: application/json
+
+###
+
+# обновление продукта
+PATCH {{baseUrl}}/products/1/
+Content-Type: application/json
+
+{
+  "description": "Самые сочные и ароматные помидорки"
+}
+
+###
+
+# удаление продукта
+DELETE {{baseUrl}}/products/1/
+Content-Type: application/json
+
+
+#================================
+
+
+### Создадим несколько продуктов для наглядности
+POST {{baseUrl}}/products/
+Content-Type: application/json
+
+{
+  "title": "Помидор черри",
+  "description": "Свежие мини-помидоры для салатов"
+}
+
+###
+POST {{baseUrl}}/products/
+Content-Type: application/json
+
+{
+  "title": "Огурец длинный",
+  "description": "Хрустящий, отличный для салатов с помидорами"
+}
+
+###
+POST {{baseUrl}}/products/
+Content-Type: application/json
+
+{
+  "title": "Базилик",
+  "description": "Травяной аромат, сочетается с томатами (помидорами)"
+}
+
+
+#=========================================
+
+
+
+###
+
+# поиск продуктов по названию и описанию
+GET {{baseUrl}}/products/?search=помидор
+Content-Type: application/json
+
+#===========================================
+
+### Поиск продуктов по названию И описанию (SearchFilter ищет во всех указанных полях)
+GET {{baseUrl}}/products/?search=помидор
+Content-Type: application/json
+
+### Пример: поиск по нескольким словам (ищутся по отдельности, регистр не важен)
+GET {{baseUrl}}/products/?search=помидор%20салат
+Content-Type: application/json
+
+### Пример: пагинация результатов (если PAGE_SIZE=10, это покажет вторую страницу)
+GET {{baseUrl}}/products/?search=помидор&page=2
+Content-Type: application/json
+
+#===========================================
+
+
+
+###
+
+# создание склада
+POST {{baseUrl}}/stocks/
+Content-Type: application/json
+
+{
+  "address": "мой адрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru3",
+  "positions": [
+    {
+      "product": 2,
+      "quantity": 250,
+      "price": 120.50
+    },
+    {
+      "product": 3,
+      "quantity": 100,
+      "price": 180
+    }
+  ]
+}
+
+###
+# Вывести список складов 
+GET {{baseUrl}}/stocks/
+
+###
+# обновляем записи на складе
+PATCH {{baseUrl}}/stocks/1/
+Content-Type: application/json
+
+{
+  "positions": [
+    {
+      "product": 2,
+      "quantity": 100,
+      "price": 130.80
+    },
+    {
+      "product": 3,
+      "quantity": 243,
+      "price": 145
+    }
+  ]
+}
+
+###
+
+# поиск складов, где есть определенный продукт
+GET {{baseUrl}}/stocks/?products=2
+Content-Type: application/json

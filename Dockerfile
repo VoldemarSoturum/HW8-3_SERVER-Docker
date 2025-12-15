@@ -9,14 +9,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 # Копируем только requirements для кеша
-COPY EX1+ADDIONS-Stocks_products/requirements.txt ./requirements.txt
+COPY EX2+ADDIONS-Stocks_products/requirements.txt ./requirements.txt
 
 # Устанавливаем зависимости
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Копируем исходники проекта
-COPY EX1+ADDIONS-Stocks_products/ .
+COPY EX2+ADDIONS-Stocks_products/ .
 
 # Значения по умолчанию для переменных окружения
 ENV DJANGO_DEBUG=1 \
